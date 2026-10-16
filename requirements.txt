@@ -1,0 +1,42 @@
+# CoverSong Studio — Python 3.12, one environment for everything.
+# start.bat installs this with uv; PyTorch comes from download.pytorch.org (CUDA 12.8 with an NVIDIA GPU, else CPU):
+#   uv pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu128 --index-strategy unsafe-best-match
+
+# --- deep learning
+torch==2.11.0
+torchaudio==2.11.0
+transformers==5.13.1          # ContentVec / HuBERT for RVC (no fairseq needed)
+faiss-cpu==1.14.3             # the voice model's index
+onnxruntime-gpu==1.23.2       # SwiftF0, Basic Pitch, voiceprints, separation models (runs on the CPU without CUDA too)
+
+# --- audio
+numpy>=2.2,<2.5
+scipy>=1.13,<2
+librosa==0.11.0
+soundfile>=0.13
+soxr>=0.5
+torchcrepe==0.0.24
+ffmpeg-python==0.2.0
+scikit-learn>=1.5
+
+# --- separation and words
+audio-separator[gpu]==0.47.0  # Mel-Band RoFormer / BS-RoFormer / UVR models (python-audio-separator)
+openai-whisper==20250625
+
+# --- model training (Applio's RVC engine, coversong/third_party/applio)
+torchfcpe==0.0.4
+einops==0.8.2
+stftpitchshift==2.0
+matplotlib>=3.9
+tensorboard>=2.18
+tqdm
+requests
+
+# --- app
+gradio==6.30.0
+fastapi
+uvicorn
+python-multipart
+pyyaml>=6
+huggingface_hub
+yt-dlp[default,deno]          # YouTube links (deno: the JavaScript runtime YouTube now needs)

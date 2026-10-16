@@ -1,0 +1,66 @@
+# CoverSong Studio — default settings.
+# Most of them are chosen in the app; the rest you rarely need to touch.
+# Any setting can be overridden from the command line: python -m coversong.cli song.mp3 --set convert.index_rate=0.7
+
+paths:
+  rvc_models: rvc_models        # voice models: rvc_models/<name>/<name>.pth (+ .index); also rmvpe.pt, contentvec/
+  voices: voices                # studio recordings per voice: voices/<name>/recordings/
+  sep_models: models/separator  # separation models (downloaded on first use)
+  output: song_output           # finished covers and every stage's files (a cache: re-runs are quick)
+  logs: logs
+
+voice_model: ""                 # the voice used when none is chosen in the app
+
+ui:
+  language: en                  # en | ru — also switchable in the app
+  port: 7861
+
+convert:
+  pitch_octaves: auto           # auto = from your range; or a number of octaves: -1, 0, 1
+  index_rate: 0.5               # starting index_rate/protect: tuned for every song automatically
+                                #   (only for languages Whisper hears reliably: en, ru, uk, fr, it, es, de, pt, pl, nl)
+  filter_radius: 3
+  rms_mix_rate: 0.25
+  protect: 0.33
+  index_nprobe: 16              # index search: how many clusters to look through (1 = plain RVC; more = closer match)
+  f0_method: rmvpe              # rmvpe | mangio-crepe | swiftf0 | hpa-rmvpe — the start; per song the least creaky wins
+  smooth_edges: true            # smooth note edges in the melody (less creak at the start and end of notes)
+  fix_low_phrases: true         # phrases and notes outside your range sung an octave higher/lower
+  backing_upper_voice: true     # backing with an octave double: sing the upper voice (checked with SwiftF0)
+  backing_f0_method: rmvpe      # the backing's starting melody method: rmvpe | same = like the lead
+  backing_fill_voicing: true    # clean backing notes RMVPE missed: sung from SwiftF0
+  autotune_backing: true        # the backing's own melody and index/protect tuning (by creak)
+  crepe_hop_length: 128
+  convert_backing: true         # the backing in your voice too
+
+clean:
+  vocalizations: soft           # wordless singing (oo, aa): soft = in your voice, softer | remove | off
+  declick: true                 # repair clicks
+  harmonic_clean_db: 6          # turn down the noise between your voice's harmonics by this many dB (0 = off)
+  restore_air: true             # air above 8 kHz from the original (RVC hardly draws it)
+  choir: auto                   # a choir of your voice in the backing: auto = chords + wordless parts | chords | manual | off
+  choir_ranges: ""              # choir places by hand, e.g. "0:10-0:16, 1:20-1:30" (in quotes)
+  crowd: off                    # test: a crowd of your voice where a crowd sings in the original (auto | off)
+  crowd_ranges: ""              # crowd places by hand, e.g. "0:44-0:46"
+  breaths: auto                 # where the original breathes: auto = your studio breaths, until you have some as the model sang | original | off
+
+fx:
+  vowel_presence: false         # lift the vowels' 4–7 kHz to the original's (can turn hissy)
+  backing_brightness: false     # lift the backing's highs to the original's (can lift the model's noise)
+  rough_guard: true             # limit brightening when it makes the voice raspy
+  rough_allow: 1.0              # how much raspiness (percentage points of rough frames) brightening may add
+
+mix:
+  reverb: 1.0                   # your vocal's reverb: 1 = like the original, 0 = dry, 2 = twice as much
+  vocal_gain_db: 0              # your vocal's level against the original's, dB
+  pitch_change_all: 0           # whole-song key change, semitones
+  low_cut_octave_down: false    # singing an octave lower: take the boom out of 60–250 Hz (lead up to -6 dB, backing -10)
+  section_fx: true              # where the original's vocal sounds like a radio or muffled, yours does too
+  backing_cap: true             # turn down backing notes that jump out over the original's (at most 6 dB)
+
+train:                          # training a voice model from your studio recordings (Studio → Train)
+  extra_recordings: []          # more folders with recordings of the same voice, if you have them
+  exclude: []                   # file names to leave out
+  eval_songs: []                # song_output folders to compare the model's versions on (optional)
+  epochs: auto                  # auto = from the amount of recordings
+  batch_size: 8                 # smaller (6, 4) if the GPU runs out of memory — it also adapts by itself

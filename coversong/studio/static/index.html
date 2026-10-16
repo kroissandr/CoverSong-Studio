@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vocal Studio · CoverSong Studio</title>
+<link rel="stylesheet" href="static/style.css">
+<script src="static/embed.js"></script>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <h1 data-i18n="title">Vocal Studio</h1>
+    <p data-i18n="subtitle">Recordings for a voice model: sing — get a grade and a tip in plain words right away.</p>
+  </div>
+  <div class="top-links">
+    <a id="coversLink" href="../" data-i18n="covers">← Covers</a>
+    <span class="lang"><a href="#" data-lang="en">EN</a> · <a href="#" data-lang="ru">RU</a></span>
+  </div>
+</header>
+
+<section class="voicebar card">
+  <label><span data-i18n="voice">Voice (model)</span>
+    <select id="voiceSelect"></select>
+  </label>
+  <button id="newVoiceBtn" class="ghost" data-i18n="newVoice">+ New voice</button>
+  <button id="openBtn" class="ghost small" data-i18n="openFolder">Open folder</button>
+  <div class="overall">
+    <div class="overall-label"><span data-i18n="recorded">Recorded:</span> <b id="recMin">0</b> <span data-i18n="min">min</span>
+      · <span data-i18n="tasksDone">tasks</span> <b id="doneCount">0</b>/<b id="totalCount">0</b></div>
+    <div class="bar"><div id="overallBar"></div></div>
+  </div>
+  <p class="hint" id="voiceHint"></p>
+</section>
+
+<section class="mic">
+  <label><span data-i18n="mic">Microphone</span>
+    <select id="micSelect"><option value="" data-i18n="micPick">— press "Turn on the microphone" —</option></select>
+  </label>
+  <button id="micBtn" class="ghost" data-i18n="micOn">Turn on the microphone</button>
+  <div class="level"><div id="levelBar"></div></div><span id="levelText" class="muted small" data-i18n="level">level</span>
+  <p class="hint" data-i18n="micHint">Sing in headphones. The browser's sound processing is off — the clean signal is recorded, as in Audacity.</p>
+</section>
+
+<main>
+  <aside>
+    <nav id="cats"></nav>
+    <div class="card train" id="trainCard">
+      <h3 data-i18n="trainTitle">Train the model</h3>
+      <p class="small" id="trainInfo"></p>
+      <div class="bar"><div id="trainBar"></div></div>
+      <p class="small muted" id="trainStep"></p>
+      <button id="trainBtn" class="primary" data-i18n="trainBtn">Train</button>
+      <details id="trainLogBox"><summary data-i18n="trainLog">Log</summary><pre id="trainLog"></pre></details>
+    </div>
+  </aside>
+
+  <section class="work">
+    <div class="task card">
+      <div class="task-top">
+        <span id="taskCat" class="chip"></span>
+        <span id="taskProgress" class="muted"></span>
+      </div>
+      <h2 id="taskTitle">…</h2>
+      <p id="taskHow" class="how"></p>
+      <div class="target">
+        <div class="target-note" id="targetNote"></div>
+        <div class="target-range" id="targetRange"></div>
+      </div>
+      <label class="song-label hidden" id="songLabelRow"><span data-i18n="songName">Song (optional, for you)</span>
+        <input id="songLabel" type="text" maxlength="60" placeholder="Artist - Title">
+      </label>
+      <div class="controls">
+        <button id="listenBtn" class="ghost" data-i18n="listen">▶ Listen</button>
+        <button id="recBtn" class="primary" data-i18n="record">● Record</button>
+        <button id="skipBtn" class="ghost small" data-i18n="skip">Skip →</button>
+      </div>
+      <div class="live">
+        <div class="needle-wrap" id="needleWrap">
+          <div class="needle-scale"><span data-i18n="lower">low</span><span data-i18n="onNote">on the note</span><span data-i18n="higher">high</span></div>
+          <div class="needle-track"><div class="needle-ok"></div><div id="needle"></div></div>
+        </div>
+        <div id="liveText" class="live-text"></div>
+        <canvas id="liveCanvas" height="120"></canvas>
+      </div>
+    </div>
+
+    <div class="result card hidden" id="result">
+      <div class="score-row">
+        <div class="score" id="score">0</div>
+        <div>
+          <div class="verdict" id="verdict"></div>
+          <div class="muted" id="resultMeta"></div>
+        </div>
+      </div>
+      <ul id="tips" class="tips"></ul>
+      <canvas id="curve" height="180"></canvas>
+      <audio id="playback" controls></audio>
+      <div class="controls">
+        <button id="saveBtn" class="primary" data-i18n="save">✓ Save and next</button>
+        <button id="againBtn" class="ghost" data-i18n="again">↻ Again</button>
+      </div>
+      <p class="muted small" data-i18n="keys">Takes from 60 points are saved. Space — record, Enter — save, R — again.</p>
+    </div>
+  </section>
+</main>
+
+<dialog id="newVoiceDlg">
+  <form method="dialog" id="newVoiceForm">
+    <h3 data-i18n="newVoiceTitle">New voice</h3>
+    <label><span data-i18n="voiceName">Name (Latin letters, digits, - and _)</span>
+      <input id="newVoiceName" required maxlength="40" pattern="[A-Za-z0-9_\-]+" placeholder="my_voice">
+    </label>
+    <label><span data-i18n="voiceType">Voice type (the starting range; it adjusts as you sing)</span>
+      <select id="newVoiceType"></select>
+    </label>
+    <div class="controls">
+      <button value="ok" class="primary" data-i18n="create">Create</button>
+      <button value="cancel" formnovalidate class="ghost" data-i18n="cancel">Cancel</button>
+    </div>
+  </form>
+</dialog>
+<script src="static/app.js"></script>
+</body>
+</html>

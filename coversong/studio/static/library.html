@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Library · CoverSong Studio</title>
+<link rel="stylesheet" href="static/style.css">
+<script src="static/embed.js"></script>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <h1 data-i18n="title">Covers library</h1>
+    <p data-i18n="subtitle">Every cover you have made, newest first.</p>
+  </div>
+</header>
+<section class="lib">
+  <div class="lib-bar card">
+    <input id="q" type="text" data-i18n-ph="search" placeholder="Search by song or voice">
+    <button id="refreshBtn" class="ghost small" data-i18n="refresh">↻ Refresh</button>
+    <button id="openRoot" class="ghost small" data-i18n="openAll">Open the song_output folder</button>
+    <span class="muted small" id="count"></span>
+  </div>
+  <div id="list"></div>
+</section>
+<script src="static/library.js"></script>
+</body>
+</html>

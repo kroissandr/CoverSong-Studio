@@ -1,0 +1,16 @@
+# created by start.bat
+.venv/
+tools/
+# your data: voice models, recordings, covers, downloaded and trained weights, logs
+rvc_models/
+voices/
+song_output/
+models/
+logs/
+coversong/third_party/applio/logs/*
+!coversong/third_party/applio/logs/mute/
+coversong/third_party/applio/rvc/models/
+# python
+__pycache__/
+*.pyc
+*.egg-info/
